@@ -16,7 +16,7 @@
 }
 .content-header {
   display: flex;
-  justify-content: flex-end; /* Push logout button to the right */
+  justify-content: space-between; /* <-- THIS IS THE FIX */
   align-items: center;
   border-bottom: 1px solid #ddd;
   padding-bottom: 1rem;

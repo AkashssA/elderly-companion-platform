@@ -73,7 +73,7 @@ const ElderlyDashboard = ({ onLogout }) => {
       />
       <div className="dashboard-content">
         <div className="content-header">
-          {/* Header content can be minimal */}
+          <h2> Elderly Companion 👵❤️</h2> {/* <-- ADD THIS LINE BACK */}
           <button onClick={onLogout} className="logout-button">Logout</button>
         </div>
         <div className="content-main">

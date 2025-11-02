@@ -33,6 +33,7 @@ app.use('/api/health', require('./routes/health'));
 app.use('/api/meals', require('./routes/meals'));
 app.use('/api/photos', require('./routes/photos'));// <-- ADD THIS LINE
 app.use('/api/notifications', require('./routes/notifications')); 
+app.use('/api/community-events', require('./routes/communityEvents'))
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
