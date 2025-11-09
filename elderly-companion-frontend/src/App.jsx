@@ -1,11 +1,10 @@
-// frontend/src/App.jsx
 import React, { useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import './App.css';
 import AuthPage from './pages/AuthPage';
 import ElderlyDashboard from './pages/ElderlyDashboard';
 import FamilyDashboard from './pages/FamilyDashboard';
-import setAuthToken from './utils/setAuthToken'; // ✅ Import setAuthToken
+import setAuthToken from './utils/setAuthToken'; // <-- 1. IMPORT THIS UTILITY
 
 function App() {
   // Theme state
@@ -15,35 +14,37 @@ function App() {
   const token = localStorage.getItem('token');
   let userRole = null;
 
-  // ✅ Configure axios with token (if present)
+  // --- THIS IS THE FIX ---
+  // Configure axios to send the token with EVERY request
   if (token) {
     setAuthToken(token);
   }
+  // --- END OF FIX ---
 
-  // ✅ Decode token to get user role
+  // Decode token to get user role
   if (token) {
     try {
       const decodedToken = jwtDecode(token);
       userRole = decodedToken.user.role;
     } catch (error) {
       console.error('Invalid token:', error);
-      localStorage.removeItem('token');
+      localStorage.removeItem('token'); // Clear invalid token
     }
   }
 
-  // ✅ Logout function
+  // Logout function
   const handleLogout = () => {
     localStorage.removeItem('token');
     window.speechSynthesis.cancel(); // Stop any ongoing speech
     window.location.reload();
   };
 
-  // ✅ Theme toggle
+  // Theme toggle
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
-  // ✅ Role-based dashboard rendering
+  // Role-based dashboard rendering
   const renderDashboard = () => {
     if (userRole === 'family') {
       return <FamilyDashboard onLogout={handleLogout} />;
@@ -51,13 +52,11 @@ function App() {
     return <ElderlyDashboard onLogout={handleLogout} />;
   };
 
-  // ✅ UI Rendering
+  // UI Rendering
   return (
-    <div className={`app-container ${theme}`}>
+    <div className={`app-container ${theme} ${token ? 'logged-in' : 'logged-out'}`}> 
       <header className="app-header">
         <h1>Elderly Companion 👵❤️</h1>
-
-        {/* Theme toggle button */}
         <button onClick={toggleTheme} className="theme-toggle">
           {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
         </button>

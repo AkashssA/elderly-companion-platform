@@ -1,10 +1,8 @@
-/* frontend/src/components/HealthMonitor.css */
+/* FIX: Removed 'padding', 'margin-top', 'background-color', etc. 
+  These are now handled by .page-wrapper.
+*/
 .health-container {
-  padding: 1.5rem;
-  margin-top: 1.5rem;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  /* All old alignment styles removed */
 }
 .health-tabs {
   display: flex;
@@ -49,14 +47,11 @@
   border-left: 1px solid #eee;
   padding-left: 2rem;
 }
-/* frontend/src/components/HealthMonitor.css */
 
-/* ... (add this to the existing styles) ... */
-
+/* --- Tips Dropdown Section --- */
 .tips-section {
   margin-top: 1.5rem;
 }
-
 .tips-toggle {
   background: none;
   border: 1px solid #ccc;
@@ -67,7 +62,6 @@
   text-align: left;
   font-weight: bold;
 }
-
 .tips-content {
   border: 1px solid #eee;
   border-top: none;
@@ -75,13 +69,11 @@
   background-color: #fafafa;
   border-radius: 0 0 4px 4px;
 }
-
 .tips-content h4 {
   margin-top: 0;
   margin-bottom: 0.5rem;
   color: var(--primary-color);
 }
-
 .tips-content ul {
   padding-left: 20px;
   margin: 0;

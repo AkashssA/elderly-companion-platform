@@ -1,13 +1,64 @@
-/* src/App.css (add this to the end) */
+/* === 1. ROOT & BODY STYLES === */
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --primary-color: #4a90e2;
+  --background-color: #f4f7f6;
+  --text-color: #333;
+  --card-bg-color: #ffffff;
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
+body {
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* === 2. BASE APP LAYOUT (FOR LOGGED-IN STATE) === */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 2rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+.app-footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+
+/* === 3. AUTH FORM STYLES (LOGIN/REGISTER) === */
 .auth-form-container {
   max-width: 400px;
   margin: 2rem auto;
   padding: 2rem;
   background-color: var(--card-bg-color);
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: var(--shadow);
   text-align: center;
+}
+
+.auth-form-container h2 {
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+  font-size: 1.8rem;
+  font-weight: 600;
 }
 
 .auth-form-container form {
@@ -23,6 +74,15 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.auth-form-container input[type="text"]:focus,
+.auth-form-container input[type="email"]:focus,
+.auth-form-container input[type="password"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
 }
 
 .auth-button {
@@ -34,11 +94,16 @@
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.1s;
 }
 
 .auth-button:hover {
   background-color: #3a7ac8;
+  transform: translateY(-1px);
+}
+
+.auth-button:active {
+  transform: translateY(0);
 }
 
 .toggle-auth-button {
@@ -48,27 +113,15 @@
   cursor: pointer;
   margin-top: 1rem;
   font-size: 0.9rem;
+  transition: color 0.2s;
 }
 
 .toggle-auth-button:hover {
   text-decoration: underline;
+  color: #3a7ac8;
 }
 
-
-/* ... (add this to the end of the file) ... */
-.show-module-btn {
-  display: block;
-  margin: 2rem auto;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-/* Add this to the end of src/App.css */
-
+/* === 4. THEME TOGGLE & DARK MODE === */
 .theme-toggle {
   position: absolute;
   top: 15px;
@@ -79,15 +132,16 @@
   background-color: transparent;
   color: white;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-/* --- High-Contrast Dark Theme --- */
-.app-container.dark {
-  /* Larger base font size */
-  font-size: 18px; 
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
 
-  /* New color variables */
-  --primary-color: #f0ad4e; /* Bright Orange */
+.app-container.dark {
+  font-size: 18px; 
+  --primary-color: #f0ad4e;
   --background-color: #000000;
   --text-color: #ffffff;
   --card-bg-color: #1a1a1a;
@@ -95,7 +149,6 @@
 }
 
 .app-container.dark button {
-  /* Ensure buttons are also high-contrast */
   background-color: var(--primary-color);
   color: #000000;
   font-weight: bold;
@@ -111,3 +164,278 @@
     color: white;
     border-color: #555;
 }
+
+/* === 5. DASHBOARD & LOGIN PAGE OVERRIDES === */
+.app-container.logged-in .app-header,
+.app-container.logged-in .app-footer {
+  display: none;
+}
+.app-container.logged-in .main-content {
+  padding: 0;
+}
+
+.app-container.logged-out .app-header,
+.app-container.logged-out .app-footer {
+  display: none;
+}
+
+/* ========================================
+   OPTION 1: WARM SUNRISE THEME (DEFAULT)
+   Change this section to use different designs!
+   ======================================== */
+
+.app-container.logged-out {
+  /* Warm, caring gradient - perfect for elderly care */
+  background: linear-gradient(135deg, #FFB88C 0%, #DE6262 50%, #FF8E53 100%);
+  background-size: 400% 400%;
+  animation: warmGradient 20s ease infinite;
+  
+  max-width: 100vw;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes warmGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Soft glowing orbs floating in background */
+.app-container.logged-out::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  top: -250px;
+  left: -250px;
+  animation: floatOrb1 25s ease-in-out infinite;
+  z-index: 1;
+}
+
+.app-container.logged-out::after {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  bottom: -200px;
+  right: -200px;
+  animation: floatOrb2 20s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes floatOrb1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(100px, 100px) scale(1.2); }
+}
+
+@keyframes floatOrb2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-80px, -80px) scale(1.1); }
+}
+
+/* Center content */
+.app-container.logged-out .main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  z-index: 2;
+}
+
+/* Beautiful card with soft shadow */
+.app-container.logged-out .auth-form-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: none;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  
+  max-width: 440px;
+  width: 90%;
+  padding: 3rem 2.5rem;
+  border-radius: 24px;
+  
+  text-align: center;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Decorative top border */
+.app-container.logged-out .auth-form-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #FFB88C, #DE6262);
+  border-radius: 0 0 4px 4px;
+}
+
+/* Logo/Icon with gradient text */
+.app-container.logged-out .auth-form-container h2 {
+  background: linear-gradient(135deg, #FF8E53, #DE6262);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
+}
+
+.app-container.logged-out .auth-form-container h2::before {
+  content: '👵❤️';
+  display: block;
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  animation: gentleBounce 3s ease-in-out infinite;
+}
+
+@keyframes gentleBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Subtitle */
+.app-container.logged-out .auth-form-container p {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+/* Modern input fields */
+.app-container.logged-out .auth-form-container input[type="text"],
+.app-container.logged-out .auth-form-container input[type="email"],
+.app-container.logged-out .auth-form-container input[type="password"],
+.app-container.logged-out .auth-form-container select {
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  background: #f8f9fa;
+  border: 2px solid transparent;
+  color: #333;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+}
+
+.app-container.logged-out .auth-form-container input::placeholder {
+  color: #aaa;
+}
+
+.app-container.logged-out .auth-form-container input:focus,
+.app-container.logged-out .auth-form-container select:focus {
+  outline: none;
+  background: white;
+  border-color: #FF8E53;
+  box-shadow: 0 0 0 4px rgba(255, 142, 83, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Beautiful gradient button */
+.app-container.logged-out .auth-button {
+  font-size: 1.05rem;
+  padding: 1.1rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #FF8E53 0%, #DE6262 100%);
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 8px 20px rgba(222, 98, 98, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 0.5rem;
+  border: none;
+}
+
+.app-container.logged-out .auth-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(222, 98, 98, 0.4);
+  background: linear-gradient(135deg, #DE6262 0%, #FF8E53 100%);
+}
+
+.app-container.logged-out .auth-button:active {
+  transform: translateY(-1px);
+}
+
+/* Toggle link */
+.app-container.logged-out .toggle-auth-button {
+  color: #DE6262;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.app-container.logged-out .toggle-auth-button:hover {
+  color: #FF8E53;
+  transform: translateY(-1px);
+}
+
+/* === 6. MISC STYLES === */
+.show-module-btn {
+  display: block;
+  margin: 2rem auto;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.show-module-btn:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .app-container.logged-out .auth-form-container {
+    padding: 2.5rem 2rem;
+    max-width: 95%;
+  }
+  
+  .app-container.logged-out .auth-form-container h2 {
+    font-size: 1.5rem;
+  }
+  
+  .app-container.logged-out .auth-form-container h2::before {
+    font-size: 3rem;
+  }
+}
+
+

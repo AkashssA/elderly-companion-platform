@@ -1,12 +1,74 @@
-/* src/components/DashboardHome.css */
+.home-container {
+  padding: 1rem;
+}
+
+/* 1. WELCOME HEADER */
+.home-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.home-header h2 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+.home-header p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* --- NEW 2-COLUMN GRID LAYOUT --- */
+.home-layout-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Main content is 2/3, sidebar is 1/3 */
+  gap: 2rem;
+}
+
+/* 2. PRIORITY ACTIONS (RIGHT SIDEBAR) */
+.home-sidebar-widgets h3 {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.home-priority-actions {
+  display: grid;
+  grid-template-columns: 1fr; /* This now stacks the cards vertically */
+  gap: 1.5rem;
+}
+
+.priority-card {
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.priority-card.sos-card {
+  background-color: #fff0f0;
+  border: 1px solid #d9534f;
+}
+.priority-card.voice-card {
+  background-color: #f0f7ff;
+  border: 1px solid #4a90e2;
+}
+.priority-card.help-card {
+  background-color: #fff9e6;
+  border: 1px solid #f0ad4e;
+}
+
+/* 3. QUICK LINKS GRID (LEFT SIDE) */
+.quick-links-section h3 {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
 .home-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* 3 columns in the main area */
   gap: 1.5rem;
-  margin-top: 2rem;
 }
+
 .home-card {
-  height: 150px;
+  height: 200px;
   border-radius: 8px;
   position: relative;
   overflow: hidden;
@@ -15,14 +77,13 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 1rem;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   transition: transform 0.2s;
 }
 .home-card:hover {
   transform: translateY(-5px);
 }
-.home-card::before { /* This is the dark overlay */
+.home-card::before { /* Dark overlay */
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -31,7 +92,9 @@
 .home-card-content {
   position: relative;
   z-index: 2;
+  padding: 1rem;
 }
-.home-card-content h3 {
-  margin: 0 0 0.5rem 0;
+.home-card-content h4 {
+  margin: 0;
+  font-size: 1.2rem;
 }

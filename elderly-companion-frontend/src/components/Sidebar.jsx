@@ -1,7 +1,7 @@
-// src/components/Sidebar.jsx
 import React from 'react';
 import './Sidebar.css';
 
+// It receives the active view and the function to change it
 const Sidebar = ({ isOpen, setIsOpen, activeView, setActiveView }) => {
   const menuItems = [
     { id: 'home', label: 'Home', icon: '🏠' },
@@ -13,15 +13,20 @@ const Sidebar = ({ isOpen, setIsOpen, activeView, setActiveView }) => {
     { id: 'wellness', label: 'Wellness', icon: '🧘' },
     { id: 'game', label: 'Memory Game', icon: '🧠' },
     { id: 'events', label: 'Community', icon: '🎉' },
+    { id: 'chatbot', label: 'AI Companion', icon: '🤖' },
   ];
 
   return (
-    <div className={`sidebar ${isOpen ? '' : 'collapsed'}`}>
+    // Add a 'collapsed' class when isOpen is false
+    <div className={`sidebar ${isOpen ? '' : 'collapsed'}`}> 
       <div className="sidebar-header">
+        {/* --- THIS IS THE CHANGE --- */}
+        {/* The <h3> title now comes BEFORE the button */}
+        <h3 style={{ display: isOpen ? 'block' : 'none' }}>Companion</h3>
         <button className="sidebar-toggle" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? '«' : '»'}
         </button>
-        <h3 style={{ display: isOpen ? 'block' : 'none' }}>Companion</h3>
+        {/* --- END OF CHANGE --- */}
       </div>
       <ul className="sidebar-menu">
         {menuItems.map(item => (
@@ -29,7 +34,7 @@ const Sidebar = ({ isOpen, setIsOpen, activeView, setActiveView }) => {
             key={item.id}
             className={`menu-item ${activeView === item.id ? 'active' : ''}`}
             onClick={() => setActiveView(item.id)}
-            title={item.label}
+            title={item.label} // Show label on hover when collapsed
           >
             <span className="icon">{item.icon}</span>
             <span className="label">{item.label}</span>

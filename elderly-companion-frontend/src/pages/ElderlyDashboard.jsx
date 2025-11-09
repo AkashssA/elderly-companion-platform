@@ -1,5 +1,4 @@
-// src/pages/ElderlyDashboard.jsx
-import React, { useState, useEffect } from 'react'; // Added useEffect
+import React, { useState, useEffect } from 'react';
 import './ElderlyDashboard.css';
 
 // Import all your components
@@ -13,11 +12,13 @@ import Entertainment from '../components/Entertainment';
 import WellnessLibrary from '../components/WellnessLibrary';
 import MemoryGame from '../components/MemoryGame';
 import CommunityEvents from '../components/CommunityEvents';
-import { subscribeUser } from '../utils/subscribeUser'; // Import for notifications
+import Chatbot from '../components/Chatbot';
+import ProactiveAssistant from '../components/ProactiveAssistant';
+import { subscribeUser } from '../utils/subscribeUser';
 
 const ElderlyDashboard = ({ onLogout }) => {
   const [activeView, setActiveView] = useState('home');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // State for sidebar toggle
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   // This hook runs once to set up notifications
   useEffect(() => {
@@ -32,39 +33,74 @@ const ElderlyDashboard = ({ onLogout }) => {
     }
   }, []);
 
-  // This function will now be passed to VoiceControl
   const handleVoiceNavigation = (section) => {
     setActiveView(section);
   };
 
+  const viewTitles = {
+    home: 'Home Dashboard',
+    health: 'Health Monitor',
+    diet: 'Diet Tracker',
+    scheduler: 'My Schedule',
+    gallery: 'Photo Gallery',
+    entertainment: 'Entertainment',
+    wellness: 'Wellness Library',
+    game: 'Memory Game',
+    events: 'Community Events',
+    chatbot: 'AI Companion'
+  };
+
+  // --- THIS IS THE CORRECTED RENDER FUNCTION ---
   const renderView = () => {
+    // The "Home" component has its own centering, so it does NOT get the wrapper.
+    if (activeView === 'home') {
+      return <DashboardHome setActiveView={setActiveView} onNavigate={handleVoiceNavigation} />;
+    }
+
+    // All other components will be wrapped in our new "page-wrapper" class
+    let componentToRender;
     switch (activeView) {
-      case 'home':
-        // **THE FIX IS HERE**: We now pass both functions down as props
-        return <DashboardHome setActiveView={setActiveView} onNavigate={handleVoiceNavigation} />;
       case 'health':
-        return <HealthMonitor />;
+        componentToRender = <HealthMonitor />;
+        break;
       case 'diet':
-        return <DietTracker />;
+        componentToRender = <DietTracker />;
+        break;
       case 'scheduler':
-        return <Scheduler />;
+        componentToRender = <Scheduler />;
+        break;
       case 'gallery':
-        return <PhotoGallery />;
+        componentToRender = <PhotoGallery />;
+        break;
       case 'entertainment':
-        return <Entertainment onClose={() => setActiveView('home')} />;
+        componentToRender = <Entertainment onClose={() => setActiveView('home')} />;
+        break;
       case 'wellness':
-        return <WellnessLibrary />;
+        componentToRender = <WellnessLibrary />;
+        break;
       case 'game':
-        return <MemoryGame />;
+        componentToRender = <MemoryGame />;
+        break;
       case 'events':
-        return <CommunityEvents />;
+        componentToRender = <CommunityEvents />;
+        break;
+      case 'chatbot':
+        componentToRender = <Chatbot />;
+        break;
       default:
         return <DashboardHome setActiveView={setActiveView} onNavigate={handleVoiceNavigation} />;
     }
+
+    // This wrapper is what fixes your alignment
+    return (
+      <div className="page-wrapper">
+        {componentToRender}
+      </div>
+    );
   };
 
   return (
-    <div className={`dashboard-layout ${isSidebarOpen ? '' : 'sidebar-collapsed'}`}>
+    <div className={`dashboard-layout ${isSidebarOpen ? '' : 'sidebar-collapsed'}`}> 
       <Sidebar 
         isOpen={isSidebarOpen} 
         setIsOpen={setIsSidebarOpen} 
@@ -73,13 +109,14 @@ const ElderlyDashboard = ({ onLogout }) => {
       />
       <div className="dashboard-content">
         <div className="content-header">
-          <h2> Elderly Companion 👵❤️</h2> {/* <-- ADD THIS LINE BACK */}
+          <h2>{viewTitles[activeView] || 'Dashboard'}</h2>
           <button onClick={onLogout} className="logout-button">Logout</button>
         </div>
         <div className="content-main">
           {renderView()}
         </div>
       </div>
+      <ProactiveAssistant />
     </div>
   );
 };

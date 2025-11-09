@@ -1,8 +1,49 @@
-/* src/components/MemoryGame.css */
-.game-container { padding: 1.5rem; margin-top: 1.5rem; background: #f0f8ff; border-radius: 8px; text-align: center; }
-.game-board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; max-width: 400px; margin: 0 auto; }
-.card { height: 80px; background: var(--primary-color); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #fff; perspective: 1000px; }
-.card.flipped { background: #fff; color: #333; border: 2px solid var(--primary-color); transform: rotateY(180deg); transition: transform 0.6s; }
-.card-content { transition: transform 0.6s; transform-style: preserve-3d; }
-.game-info { margin-top: 1.5rem; }
-.win-message { color: #28a745; font-weight: bold; font-size: 1.2rem; }
+/* FIX: Removed 'max-width: 400px' and 'margin: 0 auto'.
+  The component will now fill the .page-wrapper.
+*/
+.game-container { 
+  padding: 1.5rem; 
+  margin-top: 0; 
+  background: #f0f8ff; 
+  border-radius: 8px; 
+  text-align: center; 
+}
+
+.game-board { 
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 1rem; 
+  max-width: 400px; /* Keep the game board itself small and centered */
+  margin: 0 auto; 
+}
+.card { 
+  height: 80px; 
+  background: var(--primary-color); 
+  border-radius: 8px; 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 2.5rem; 
+  color: #fff; 
+  perspective: 1000px; 
+}
+.card.flipped { 
+  background: #fff; 
+  color: #333; 
+  border: 2px solid var(--primary-color); 
+  transform: rotateY(180deg); 
+  transition: transform 0.6s; 
+}
+.card-content { 
+  transition: transform 0.6s; 
+  transform-style: preserve-3d; 
+}
+.game-info { 
+  margin-top: 1.5rem; 
+}
+.win-message { 
+  color: #28a745; 
+  font-weight: bold; 
+  font-size: 1.2rem; 
+}
