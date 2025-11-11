@@ -1,9 +1,8 @@
-/* FIX: Removed 'padding', 'margin-top', 'background-color', etc. 
-  These are now handled by .page-wrapper.
-*/
+/* Main container - fills the .page-wrapper */
 .health-container {
-  /* All old alignment styles removed */
+  width: 100%;
 }
+
 .health-tabs {
   display: flex;
   gap: 1rem;
@@ -24,12 +23,17 @@
   color: var(--primary-color);
   border-bottom: 3px solid var(--primary-color);
 }
+
+/* --- THIS IS THE FIX --- */
+/* Two-column layout */
 .health-content {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 2fr; /* 1 part form, 2 parts chart/activity */
   gap: 2rem;
   align-items: start;
 }
+/* --- END OF FIX --- */
+
 .health-form h3 {
   margin-top: 0;
 }
@@ -43,12 +47,8 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-.health-chart {
-  border-left: 1px solid #eee;
-  padding-left: 2rem;
-}
 
-/* --- Tips Dropdown Section --- */
+/* Care Tips Dropdown */
 .tips-section {
   margin-top: 1.5rem;
 }
@@ -77,4 +77,58 @@
 .tips-content ul {
   padding-left: 20px;
   margin: 0;
+}
+
+/* Chart and Activity Area */
+.health-chart-and-activity {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.health-chart {
+  padding-left: 0;
+}
+
+/* Recent Activity List */
+.recent-activity-container {
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.recent-activity-container h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.recent-activity-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.recent-activity-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+.recent-activity-list li:last-child {
+  border-bottom: none;
+}
+
+.activity-date {
+  color: #555;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.activity-text {
+  color: #333;
 }

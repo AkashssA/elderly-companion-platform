@@ -1,25 +1,47 @@
-// frontend/src/components/HealthMonitor.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import { healthTips } from '../data/healthTips'; // NEW: Import our health tips
+import { healthTips } from '../data/healthTips';
 import './HealthMonitor.css';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+
+// --- HELPER FUNCTION (unchanged) ---
+const formatActivity = (metric) => {
+  const date = new Date(metric.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+  switch (metric.metricType) {
+    case 'bloodPressure':
+      return `BP: ${metric.value1}/${metric.value2} mmHg`;
+    case 'bloodSugar':
+      return `Sugar: ${metric.value1} mg/dL`;
+    case 'weight':
+      return `Weight: ${metric.value1} kg`;
+    case 'heartRate':
+      return `Heart Rate: ${metric.value1} bpm`;
+    default:
+      return 'New Reading';
+  }
+};
 
 const HealthMonitor = () => {
   const [metricType, setMetricType] = useState('bloodPressure');
   const [data, setData] = useState([]);
   const [formValues, setFormValues] = useState({ value1: '', value2: '' });
-  const [showTips, setShowTips] = useState(false); // NEW: State to control dropdown visibility
-
+  const [showTips, setShowTips] = useState(false);
+  const [recentActivity, setRecentActivity] = useState([]);
+  
+  // This hook handles tab changes for the chart.
   useEffect(() => {
     fetchData();
-    setShowTips(false); // NEW: Close tips when switching tabs
+    setShowTips(false);
   }, [metricType]);
 
-  // ... (fetchData, handleInputChange, checkNormalRange, and handleSubmit functions are the same)
+  // This hook runs ONLY ONCE to get the activity list.
+  useEffect(() => {
+    fetchRecentActivity();
+  }, []); // The empty array [] means "run once on mount"
+
   const fetchData = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/api/health/${metricType}`);
@@ -28,9 +50,20 @@ const HealthMonitor = () => {
       console.error("Failed to fetch health data", err);
     }
   };
+
+  const fetchRecentActivity = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/health/recent`);
+      setRecentActivity(res.data);
+    } catch (err) {
+      console.error("Failed to fetch recent activity", err);
+    }
+  };
+
   const handleInputChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
+  
   const checkNormalRange = () => {
     const { value1, value2 } = formValues;
     const v1 = parseFloat(value1);
@@ -45,18 +78,20 @@ const HealthMonitor = () => {
         alert('Warning: Heart Rate is outside the normal range (60-100 bpm). Please consult a doctor.');
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     checkNormalRange();
     try {
       await axios.post('http://localhost:5000/api/health', { ...formValues, metricType });
-      fetchData();
-      setFormValues({ value1: '', value2: '' });
+      fetchData(); // Refresh chart
+      fetchRecentActivity(); // <-- REFRESH activity list
+      setFormValues({ value1: '', value2: '' }); // Clear form
     } catch (err) {
       console.error("Failed to add health data", err);
     }
   };
-
+  
   const chartData = {
     labels: data.map(d => new Date(d.date).toLocaleDateString("en-IN")),
     datasets: [
@@ -78,6 +113,7 @@ const HealthMonitor = () => {
   return (
     <div className="health-container">
       <h2>Health Monitor</h2>
+      {/* --- THIS IS THE FIX for the typo --- */}
       <div className="health-tabs">
         <button onClick={() => setMetricType('bloodPressure')} className={metricType === 'bloodPressure' ? 'active' : ''}>Blood Pressure</button>
         <button onClick={() => setMetricType('bloodSugar')} className={metricType === 'bloodSugar' ? 'active' : ''}>Blood Sugar</button>
@@ -100,7 +136,6 @@ const HealthMonitor = () => {
             <button type="submit">Add Reading</button>
           </form>
 
-          {/* NEW: Tips Dropdown Section */}
           <div className="tips-section">
             <button onClick={() => setShowTips(!showTips)} className="tips-toggle">
               {showTips ? 'Hide' : 'Show'} Care Tips ▼
@@ -119,9 +154,28 @@ const HealthMonitor = () => {
             )}
           </div>
         </div>
-        <div className="health-chart">
-          <h3>Your Progress</h3>
-          {data.length > 0 ? <Line data={chartData} /> : <p>No data recorded yet. Add a reading to see your chart.</p>}
+        
+        <div className="health-chart-and-activity">
+          <div className="health-chart">
+            <h3>Your Progress: {metricType.replace(/([A-Z])/g, ' $1')}</h3>
+            {data.length > 0 ? <Line data={chartData} /> : <p>No data recorded for this metric yet.</p>}
+          </div>
+
+          <div className="recent-activity-container">
+            <h3>Your Recent Activity</h3>
+            {recentActivity.length === 0 ? (
+              <p>No recent activity. Add a reading to get started!</p>
+            ) : (
+              <ul className="recent-activity-list">
+                {recentActivity.map(metric => (
+                  <li key={metric._id}>
+                    <span className="activity-date">{new Date(metric.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
+                    <span className="activity-text">{formatActivity(metric)}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
       </div>
     </div>
