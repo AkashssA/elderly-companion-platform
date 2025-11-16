@@ -1,15 +1,5 @@
-.diet-container { 
-  padding: 1.5rem; 
-  margin-top: 1.5rem; 
-  background-color: #f9f9f9; 
-  border: 1px solid #ddd; 
-  border-radius: 8px; 
-  
-  /* --- THIS IS THE FIX --- */
-  /* This centers the Diet Tracker content */
-  max-width: 900px; 
-  margin: 0 auto;
-  /* --- END OF FIX --- */
+.diet-container {
+  width: 100%; /* Fills the .page-wrapper */
 }
 .diet-tabs { 
   display: flex; 
@@ -40,12 +30,17 @@
   grid-column: 1 / -1; 
   margin-bottom: 1rem; 
   padding: 0.5rem; 
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 .meal-card { 
   background: #fff; 
   padding: 1rem; 
   border-radius: 8px; 
   box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 .recipe-list, .weekly-summary { 
   display: flex; 
@@ -56,14 +51,40 @@
   background: #fff; 
   padding: 1.5rem; 
   border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 .summary-day h4 { 
   margin-top: 0; 
   border-bottom: 1px solid #eee; 
   padding-bottom: 0.5rem; 
 }
+.summary-day ul {
+  list-style-type: none;
+  padding: 0;
+}
 
-/* --- STYLES FOR THE MEAL LOGGER --- */
+/* Delete Button for Summary */
+.summary-meal-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.meal-delete-btn {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.meal-delete-btn:hover {
+  background-color: #c9302c;
+}
+
+/* Meal Logger View */
 .meal-logger-view {
   padding: 1.5rem;
   background-color: #fff;
@@ -142,4 +163,83 @@
   padding: 0.8rem 1.5rem;
   border-radius: 4px;
   cursor: pointer;
+}
+
+/* Calorie Tracker & AI Suggestion */
+.calorie-tracker {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+}
+
+.calorie-tracker h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+}
+
+.goal-setter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.goal-setter input {
+  width: 100px;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.calorie-progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.calorie-progress-fill {
+  height: 100%;
+  background-color: #28a745; /* Green */
+  border-radius: 10px;
+  transition: width 0.5s ease-in-out;
+}
+
+.calorie-tracker p {
+  text-align: right;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.suggestion-btn {
+  background-color: #f0ad4e;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+.suggestion-container {
+  background-color: #fff9e6;
+  border: 1px solid #f0ad4e;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1.5rem;
+}
+
+.suggestion-container h4 {
+  margin-top: 0;
+  color: #d9534f;
+}
+
+.suggestion-container pre {
+  white-space: pre-wrap; /* Allows text to wrap */
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
 }

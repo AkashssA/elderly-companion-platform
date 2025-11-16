@@ -4,7 +4,7 @@ import './App.css';
 import AuthPage from './pages/AuthPage';
 import ElderlyDashboard from './pages/ElderlyDashboard';
 import FamilyDashboard from './pages/FamilyDashboard';
-import setAuthToken from './utils/setAuthToken'; // <-- 1. IMPORT THIS UTILITY
+import setAuthToken from './utils/setAuthToken'; // <-- 1. IMPORT THE UTILITY
 
 function App() {
   // Theme state
@@ -16,6 +16,7 @@ function App() {
 
   // --- THIS IS THE FIX ---
   // Configure axios to send the token with EVERY request
+  // This must be done at the top, before any components render
   if (token) {
     setAuthToken(token);
   }

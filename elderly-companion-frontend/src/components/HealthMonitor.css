@@ -24,15 +24,13 @@
   border-bottom: 3px solid var(--primary-color);
 }
 
-/* --- THIS IS THE FIX --- */
 /* Two-column layout */
 .health-content {
   display: grid;
-  grid-template-columns: 1fr 2fr; /* 1 part form, 2 parts chart/activity */
+  grid-template-columns: 1fr 2fr;
   gap: 2rem;
   align-items: start;
 }
-/* --- END OF FIX --- */
 
 .health-form h3 {
   margin-top: 0;
@@ -47,6 +45,30 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+/* Height Input Styles */
+.height-input-container {
+  background-color: #f0f7ff;
+  border: 1px solid #4a90e2;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+.height-input-container label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.height-input-container input {
+  width: 100px;
+}
+.height-input-container p {
+  font-size: 0.8rem;
+  color: #555;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
 
 /* Care Tips Dropdown */
 .tips-section {
@@ -79,8 +101,8 @@
   margin: 0;
 }
 
-/* Chart and Activity Area */
-.health-chart-and-activity {
+/* Chart and Summary Area */
+.health-chart-and-summary {
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -90,45 +112,139 @@
   padding-left: 0;
 }
 
-/* Recent Activity List */
-.recent-activity-container {
+/* --- NEW AI SUMMARY STYLES --- */
+.ai-summary-container {
   padding: 1.5rem;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
 }
 
-.recent-activity-container h3 {
+.ai-summary-container h3 {
   margin-top: 0;
   color: var(--primary-color);
   border-bottom: 1px solid #eee;
   padding-bottom: 0.5rem;
 }
 
-.recent-activity-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.recent-activity-list li {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.75rem 0.5rem;
-  border-bottom: 1px solid #eee;
-}
-.recent-activity-list li:last-child {
-  border-bottom: none;
-}
-
-.activity-date {
-  color: #555;
+.generate-summary-btn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
   font-weight: bold;
-  margin-right: 1rem;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  margin-bottom: 1rem;
 }
 
-.activity-text {
+.generate-summary-btn:disabled {
+  background-color: #aaa;
+}
+
+/* This is the error message box */
+.summary-report {
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1rem;
+  animation: fadeIn 0.5s ease-in-out;
+}
+.summary-report pre {
+  white-space: pre-wrap; /* Keeps line breaks from AI */
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
   color: #333;
 }
+
+/* --- NEW ANALYSIS CARD STYLES --- */
+.analysis-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.analysis-card {
+  display: flex;
+  gap: 1rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.card-icon {
+  font-size: 2rem;
+}
+.card-content {
+  flex: 1;
+}
+.card-content h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+.card-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #000;
+}
+.card-status {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0.25rem 0;
+}
+.card-advice {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0.5rem 0 0 0;
+}
+
+/* Color coding for status */
+.analysis-card.normal {
+  border-left: 5px solid #28a745; /* Green */
+}
+.analysis-card.normal .card-status {
+  color: #28a745;
+}
+
+.analysis-card.high,
+.analysis-card.overweight,
+.analysis-card.obese {
+  border-left: 5px solid #d9534f; /* Red */
+}
+.analysis-card.high .card-status,
+.analysis-card.overweight .card-status,
+.analysis-card.obese .card-status {
+  color: #d9534f;
+}
+
+.analysis-card.low,
+.analysis-card.underweight {
+  border-left: 5px solid #f0ad4e; /* Yellow */
+}
+.analysis-card.low .card-status,
+.analysis-card.underweight .card-status {
+  color: #f0ad4e;
+}
+
+.overall-suggestion {
+  grid-column: 1 / -1; /* Make it span all columns */
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #e9f5ff;
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* --- END NEW STYLES --- */
